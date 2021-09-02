@@ -1,0 +1,16 @@
+---
+version: "2.1"
+services:
+  webtop:
+    build: .
+    image: webtop-mitmproxy
+    container_name: webtop-mitmproxy
+    privileged: true #optional
+    environment:
+      - PUID=1000
+      - PGID=1000
+    ports:
+      - 3000:3000
+      - 8081:8081
+    shm_size: "4gb" #optional
+    restart: unless-stopped

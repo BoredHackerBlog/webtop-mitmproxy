@@ -1,0 +1,15 @@
+#start webtop and listen on 0.0.0.0, dont open a browser
+/mitmweb --web-host 0.0.0.0 --no-web-open-browser &
+
+#sleep 10 seconds to ensure that webtop starts
+sleep 10
+
+#set proxy variable and get cert
+all_proxy=127.0.0.1:8080 curl http://mitm.it/cert/pem -o mitmproxy-ca-cert.pem
+#move cert
+sudo mv mitmproxy-ca-cert.pem /usr/local/share/ca-certificates/mitmproxy.crt
+#install cert
+sudo update-ca-certificates
+
+#start chromium w/ mitmproxy as the proxy and ignore cert errors
+all_proxy=127.0.0.1:8080 chromium-browser --ignore-certificate-errors
